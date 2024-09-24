@@ -1,0 +1,33 @@
+Understanding GenZ Career Aspirations through data analysis of 3900+ observations:
+
+ASK:
+Understanding the problem statement and problem context and the impact in detail is very much required in data analysis
+I used 5WH framework to understand the problem statement clearly
+PREPARE:
+Understood the right kind of metrics that are needed to solve the problem better
+Collected the data of GenZ employees and their career aspirations through a google form survey containing over 25 questions
+I took into account the gender variations, infuencing factors, interest in higher education etc
+PROCESS:
+Then I cleaned the data through: deduplication, removing blanks, proper formatting, filtering columns, deletinf unnecessary information
+I replaced the values that are too close or those that have blanks
+ANALYZE:
+Got to understand what the whole data tells me through slicers, filters, sql queries, pivot tables etc
+I analysed the data with over 20+ pivot tables, 20+ SQL queries
+SHARE:
+Visualised the data to make the client understand about the whole story through appropriate charts.
+
+Below are the conclusions I made from the analysis I performed from end to end:
+OBSERVATIONS:
+From the observations from the collected data, It is understood that GenZ employees like to:				
+Work in progressive environment and wanted to create win-win situation both for company and themselves				
+Willing to work for not more than 8hours				
+Want to work with companies with clear goal				
+Want work with manager who is more progressive and not someone who is disrespectful				
+Want to work with company who's mission aligns with their actions				
+GenZ career aspirations are greatly influenced by their parents in general				
+Most GenZ employees expect salary of <50k after 3y and <151k after 5y in general 				
+GenZ employees' decision to work with companies for long depends on various factors				
+GenZ employees usually like to work at midsized companies				
+
+However these insights are based on 3900+ records, more data is required to calculate deeper analysis to trigger strategic business decisions
+
