@@ -1,0 +1,172 @@
+Pizza Hut SQL project:
+-- Veluguri Sahithi - pizzahut SQL project
+create table orders (
+order_id int not null,
+order_date date not null,
+order_time time not null,
+primary key(order_id));
+
+create table order_details (
+order_details_id int not null,
+order_id int not null,
+pizza_id text not null,
+quantity int not null,
+primary key(order_details_id));
+
+-- 1. Retrieve the total number of orders placed
+select count(order_id) as total_orers from orders;
+-- ans: 21350
+
+
+-- 2. Calculate the total revenue generated from pizza sales
+select 
+round(sum(order_details.quantity * pizzas.price),2) as total_sales
+from order_details join pizzas
+on pizzas.pizza_id=order_details.pizza_id;
+-- ans: 817860.05
+
+-- 3.Identify the highest-priced pizza
+select pizza_types.name, pizzas.price
+from pizza_types join pizzas
+on pizza_types.pizza_type_id=pizzas.pizza_type_id
+order by pizzas.price desc
+limit 1;
+-- ans: The Greek Pizza	35.95
+
+-- 4. Identify the most common pizza size ordered.
+select pizzas.size, count(order_details.order_details_id) as order_count 
+from pizzas join order_details
+on pizzas.pizza_id=order_details.pizza_id
+group by pizzas.size;
+-- M	15385
+-- L	18526
+-- S	14137
+-- XL	544
+-- XXL	28
+
+-- 5. List the top 5 most ordered pizza types along with their quantities.
+select pizza_types.name, 
+sum(order_details.quantity) as quantityy
+from pizza_types join pizzas
+on pizza_types.pizza_type_id=pizzas.pizza_type_id
+join order_details
+on order_details.pizza_id=pizzas.pizza_id
+group by pizza_types.name
+order by quantityy desc
+limit 6;
+-- ans: The Classic Deluxe Pizza	2453
+-- The Barbecue Chicken Pizza	2432
+-- The Hawaiian Pizza	2422
+-- The Pepperoni Pizza	2418
+-- The Thai Chicken Pizza	2371
+-- The California Chicken Pizza	2370
+
+-- 6. Join the necessary tables to find the total quantity of each pizza category ordered.
+select pizza_types.category, 
+sum(order_details.quantity) as quantitty
+from pizza_types join pizzas
+on pizza_types.pizza_type_id=pizzas.pizza_type_id
+join order_details
+on order_details.pizza_id=pizzas.pizza_id
+group by pizza_types.category
+order by quantitty desc;
+-- ans: 
+-- Classic	14888
+-- Supreme	11987
+-- Veggie	11649
+-- Chicken	11050
+
+
+-- 7.Determine the distribution of orders by hour of the day.
+select hour(order_time) as hour, count(order_id) as order_count 
+from orders
+group by hour(order_time);
+-- ans:
+-- 11	1231
+-- 12	2520
+-- 13	2455
+-- 14	1472
+-- 15	1468
+-- 16	1920
+-- 17	2336
+-- 18	2399
+-- 19	2009
+-- 20	1642
+-- 21	1198
+-- 22	663
+-- 23	28
+-- 10	8
+-- 9	1
+
+-- 8. Join relevant tables to find the category-wise distribution of pizzas.
+select category, count(name) from pizza_types
+group by category;
+-- ans:
+-- Chicken	6
+-- Classic	8
+-- Supreme	9
+-- Veggie	9
+
+-- 9 Group the orders by date and calculate the average number of pizzas ordered per day.
+select avg(quantity) from
+(select orders.order_date, 
+sum(order_details.quantity) as quantity
+from orders join order_details
+on orders.order_id=order_details.order_id
+group by orders.order_date) as order_quantity;
+-- ans: 138.4749
+
+-- 10. Determine the top 3 most ordered pizza types based on revenue.
+select pizza_types.name,
+sum(order_details.quantity*pizzas.price) as revenue
+from pizza_types join pizzas
+on pizzas.pizza_type_id=pizza_types.pizza_type_id
+join order_details
+on order_details.pizza_id=pizzas.pizza_id
+group by pizza_types.name order by revenue desc limit 5;
+
+-- ans:
+-- The Thai Chicken Pizza	43434.25
+-- The Barbecue Chicken Pizza	42768
+-- The California Chicken Pizza	41409.5
+-- The Classic Deluxe Pizza	38180.5
+-- The Spicy Italian Pizza	34831.25
+
+-- 11. Calculate the percentage contribution of each pizza type to total revenue.
+select pizza_types.category, 
+((sum(order_details.quantity * pizzas.price) / (select round(sum(order_details.quantity * pizzas.price),2) 
+from order_details inner join pizzas 
+on order_details.pizza_id = pizzas.pizza_id))*100) as sold 
+from pizza_types join pizzas 
+on pizzas.pizza_type_id = pizza_types.pizza_type_id 
+join order_details 
+on order_details.pizza_id = pizzas.pizza_id 
+group by category;
+-- ans:
+-- Classic	26.90596025566967
+-- Veggie	23.682590927384577
+-- Supreme	25.45631126009862
+-- Chicken	23.955137556847287
+
+-- 12. Determine the top 3 most ordered pizza types based on revenue for each pizza category ?
+select category, name, revenue, ranking 
+from (select category, name, revenue, rank() over(partition by category order by revenue desc) as ranking 
+from (select pizza_types.category, pizza_types.name, sum(pizzas.price*order_details.quantity) as revenue 
+from pizza_types join pizzas on pizza_types.pizza_type_id = pizzas.pizza_type_id 
+join order_details on order_details.pizza_id = pizzas.pizza_id 
+group by pizza_types.category, pizza_types.name) as pizza) as pizza1 
+where ranking <=3;
+
+-- ans:
+-- Chicken	The Thai Chicken Pizza	43434.25	1
+-- Chicken	The Barbecue Chicken Pizza	42768	2
+-- Chicken	The California Chicken Pizza	41409.5	3
+-- Classic	The Classic Deluxe Pizza	38180.5	1
+-- Classic	The Hawaiian Pizza	32273.25	2
+-- Classic	The Pepperoni Pizza	30161.75	3
+-- Supreme	The Spicy Italian Pizza	34831.25	1
+-- Supreme	The Italian Supreme Pizza	33476.75	2
+-- Supreme	The Sicilian Pizza	30940.5	3
+-- Veggie	The Four Cheese Pizza	32265.70000000065	1
+-- Veggie	The Mexicana Pizza	26780.75	2
+-- Veggie	The Five Cheese Pizza	26066.5	3
