@@ -1,0 +1,11 @@
+Business Requirement: Conduct a comprehensive analysis of Blinkit's sales performance, customer satisfaction and inventory distribution to identify key insights using KPIs and visualizations.
+KPI Requirements:
+1.Total Sales - Overall revenue generated
+2.Average Sales - Average revenue from each sale
+3.Number of items - Total count of different items sold
+4.Average rating - given by customer
+Chart requirements:
+1.Total sales by fat content
+2.Total sales by iitem type
+3.Fat content by outlet of total sales
+4.Total sales by outlet establishment
