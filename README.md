@@ -1,3 +1,5 @@
 # Sahithi.V_DataAnalysis
 
-I am Sahithi Veluguri, worked as Salesforce admin for 1.5y and now transitioning into a data analyst. As a part of my data analytics journey. I would love to showcase my projects here involving skills like excel, google workspace, MySQL, PowerBI, Python
+I am Sahithi Veluguri, an efficient data analyst with overall 1.3+ years of experience in IT and a proven record of completing 4 internships, earning 10
+ certifications, and delivering 3+ projects within just 3 months. Proficient in SQL, Excel, Power BI and passionate about continuous
+ improvement in data analytics
